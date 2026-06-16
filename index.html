@@ -102,12 +102,40 @@
                         background-color 0.4s ease;
         }
 
-        /* Efek Interaktif Mengembang Halus & Bercahaya Apabila Hover */
-        .section-frame:hover {
-            transform: scale(1.02); /* Mengembang 2% secara selamat pada skrin mobile */
-            background-color: rgba(255, 255, 255, 0.6);
+        /* ==========================================================================
+           SISTEM FRAME BAHARU (EFEK FOCUS BUBBLE HOVER)
+           ========================================================================== */
+        .section-frame {
+            margin: 30px auto;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.25); /* Latar belakang lutsinar lembut */
+            border: 1px solid rgba(128, 51, 60, 0.35); /* Garisan frame tipis bertema Maroon */
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(128, 51, 60, 0.03);
+            
+            /* Animasi transisi yang sangat smooth untuk kesan mengecil/membesar */
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        box-shadow 0.4s ease, 
+                        background-color 0.4s ease,
+                        opacity 0.4s ease;
+        }
+
+        /* 1. TRICK UTAMA: Bila main-wrapper di-hover, KESEMUA frame di dalamnya akan mengecil & pudar sikit secara pukal */
+        .main-wrapper:hover .section-frame {
+            transform: scale(0.95); /* Mengecil ke 95% */
+            opacity: 0.6; /* Pudar sikit supaya tumpuan hilang */
+        }
+
+        /* 2. TRICK KEDUA: Frame yang sedang dipancangkan (FOKUS/HOVERED) akan dipaksa membesar gempak macam bubble! */
+        .main-wrapper .section-frame:hover {
+            transform: scale(1.05); /* Membesar ke 105% (Efek Bubble) */
+            opacity: 1; /* Kekal terang benderang */
+            background-color: rgba(255, 255, 255, 0.7);
             border-color: var(--maroon-text);
-            box-shadow: 0 10px 25px rgba(128, 51, 60, 0.08);
+            box-shadow: 0 15px 30px rgba(128, 51, 60, 0.15);
+            z-index: 10; /* Berada di lapisan atas sekali semasa membesar */
         }
 
         /* ==========================================================================
