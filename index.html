@@ -86,56 +86,39 @@
         }
 
         /* Spesifikasi Sistem Frame Baharu untuk Setiap Halaman Section */
-        .section-frame {
-            margin: 30px auto;
-            padding: 40px 20px;
-            text-align: center;
-            position: relative;
-            background-color: rgba(255, 255, 255, 0.25); /* Latar belakang lutsinar lembut */
-            border: 1px solid rgba(128, 51, 60, 0.35); /* Garisan frame tipis bertema Maroon */
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(128, 51, 60, 0.03);
-            
-            /* Animasi asas pertukaran saiz scaling */
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
-                        box-shadow 0.4s ease, 
-                        background-color 0.4s ease;
-        }
-
         /* ==========================================================================
-           SISTEM FRAME BAHARU (EFEK FOCUS BUBBLE HOVER)
+           SISTEM FRAME BAHARU (EFEK AUTOMATIK BESAR BILA USER SKROL KAT PHONE)
            ========================================================================== */
         .section-frame {
-            margin: 30px auto;
+            margin: 25px auto;
             padding: 40px 20px;
             text-align: center;
             position: relative;
-            background-color: rgba(255, 255, 255, 0.25); /* Latar belakang lutsinar lembut */
-            border: 1px solid rgba(128, 51, 60, 0.35); /* Garisan frame tipis bertema Maroon */
+            background-color: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(128, 51, 60, 0.25);
             border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(128, 51, 60, 0.03);
+            box-shadow: 0 4px 15px rgba(128, 51, 60, 0.02);
             
-            /* Animasi transisi yang sangat smooth untuk kesan mengecil/membesar */
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        box-shadow 0.4s ease, 
-                        background-color 0.4s ease,
-                        opacity 0.4s ease;
+            /* Default keadaan asal: Semua frame dikecutkan sikit dan pudar secara standard */
+            transform: scale(0.93);
+            opacity: 0.55;
+            z-index: 1;
+            
+            /* Transisi yang sangat smooth masa user tengah tengah laju skrol */
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.2), 
+                        box-shadow 0.5s ease, 
+                        background-color 0.5s ease,
+                        opacity 0.5s ease;
         }
 
-        /* 1. TRICK UTAMA: Bila main-wrapper di-hover, KESEMUA frame di dalamnya akan mengecil & pudar sikit secara pukal */
-        .main-wrapper:hover .section-frame {
-            transform: scale(0.95); /* Mengecil ke 95% */
-            opacity: 0.6; /* Pudar sikit supaya tumpuan hilang */
-        }
-
-        /* 2. TRICK KEDUA: Frame yang sedang dipancangkan (FOKUS/HOVERED) akan dipaksa membesar gempak macam bubble! */
-        .main-wrapper .section-frame:hover {
-            transform: scale(1.05); /* Membesar ke 105% (Efek Bubble) */
-            opacity: 1; /* Kekal terang benderang */
-            background-color: rgba(255, 255, 255, 0.7);
+        /* LOGIK BARU: Mana-mana frame yang tengah lalu kat tengah skrin phone akan dipaksa pop up! */
+        .section-frame.active {
+            transform: scale(1.04); /* Melompat besar sikit (efek bubble) */
+            opacity: 1; /* Terang penuh */
+            background-color: rgba(255, 255, 255, 0.75);
             border-color: var(--maroon-text);
-            box-shadow: 0 15px 30px rgba(128, 51, 60, 0.15);
-            z-index: 10; /* Berada di lapisan atas sekali semasa membesar */
+            box-shadow: 0 12px 25px rgba(128, 51, 60, 0.12);
+            z-index: 5;
         }
 
         /* ==========================================================================
@@ -614,18 +597,22 @@
                 </div>
 
                 <div class="split-couple-container">
+                    <!-- Baris Pengantin Perempuan (Kiri) -->
                     <div class="couple-row-block">
                         <div class="profile-wooden-frame">
-                            <div class="empty-img-box">Gambar Izzah</div>
+                            <!-- Link terus ke fail gambar_izzah.jpg -->
+                            <img src="gambar_izzah.jpeg" alt="Nurul Izzah">
                         </div>
                         <div class="couple-text-details">
                             NURUL IZZAH BINTI<br>MUHAMAD ZAHIR
                         </div>
                     </div>
 
+                    <!-- Baris Pengantin Lelaki (Kanan) -->
                     <div class="couple-row-block reverse-direction" style="margin-bottom: 0;">
                         <div class="profile-wooden-frame">
-                            <div class="empty-img-box">Gambar Omar</div>
+                            <!-- Link terus ke fail gambar_omar.jpg -->
+                            <img src="gambar_omar.jpeg" alt="Omar Farouq">
                         </div>
                         <div class="couple-text-details">
                             OMAR FAROUQ BIN<br>RAHIM
@@ -836,6 +823,29 @@
             }
             trackPlayingStatus = !trackPlayingStatus;
         });
+
+        /* ==========================================================================
+           ENGIN DETEKSI SKROL PHONE (Intersection Observer) - TAMBAH DI SINI
+           ========================================================================== */
+        const allFrames = document.querySelectorAll('.section-frame');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: "-30% 0px -30% 0px", /* Fokus tepat pada zon tengah skrin phone */
+            threshold: 0.1
+        };
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                } else {
+                    entry.target.classList.remove('active');
+                }
+            });
+        }, observerOptions);
+
+        allFrames.forEach(frame => scrollObserver.observe(frame));
     </script>
 </body>
 </html>
