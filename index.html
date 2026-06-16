@@ -147,39 +147,40 @@
             color: var(--maroon-text);
         }
 
-        /* Spesifikasi Sistem Frame Baharu untuk Setiap Halaman Section */
         /* ==========================================================================
-           SISTEM FRAME BAHARU (EFEK AUTOMATIK BESAR BILA USER SKROL KAT PHONE)
+           SISTEM FRAME BAHARU (MENGGUNAKAN GAMBAR PNG SEBAGAI LATAR BELAKANG)
            ========================================================================== */
         .section-frame {
             margin: 25px auto;
-            padding: 40px 20px;
+            padding: 50px 30px; /* Lebihkan padding sikit supaya teks tak terkeluar dari sempadan imej PNG */
             text-align: center;
             position: relative;
-            background-color: rgba(255, 255, 255, 0.25);
-            border: 1px solid rgba(128, 51, 60, 0.25);
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(128, 51, 60, 0.02);
             
-            /* Default keadaan asal: Semua frame dikecutkan sikit dan pudar secara standard */
-            transform: scale(0.85);
+            /* GANTIKAN WARNA KEPADA GAMBAR FAIL PNG KAU */
+            background-image: url('Background.png');
+            background-color: transparent; /* Matikan warna solid asal */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 100% 100%; /* Paksa gambar PNG meregang mengikut tinggi & lebar section */
+            
+            border: none; /* Padam border solid lama sebab kita dah pakai border dari imej PNG */
+            
+            /* Default keadaan asal: Semua frame dikecutkan sikit dan pudar */
+            transform: scale(0.93);
             opacity: 0.55;
             z-index: 1;
             
-            /* Transisi yang sangat smooth masa user tengah tengah laju skrol */
+            /* Transisi smooth semasa skrol */
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.2), 
-                        box-shadow 0.5s ease, 
-                        background-color 0.5s ease,
+                        filter 0.5s ease,
                         opacity 0.5s ease;
         }
 
-        /* LOGIK BARU: Mana-mana frame yang tengah lalu kat tengah skrin phone akan dipaksa pop up! */
+        /* LOGIK ACTIVE: Bila frame sampai tengah skrin phone, dia membesar & menyala terang */
         .section-frame.active {
-            transform: scale(1.04); /* Melompat besar sikit (efek bubble) */
+            transform: scale(1.04); /* Efek bubble pop up */
             opacity: 1; /* Terang penuh */
-            background-color: rgba(255, 255, 255, 0.75);
-            border-color: var(--maroon-text);
-            box-shadow: 0 12px 25px rgba(128, 51, 60, 0.12);
+            filter: drop-shadow(0 10px 20px rgba(128, 51, 60, 0.15)); /* Guna drop-shadow untuk imej PNG biar shadow ikut bentuk border imej */
             z-index: 5;
         }
 
@@ -828,7 +829,7 @@
             <div class="pink-dashboard-card">
                 <div class="dashboard-card-headline" style="margin-bottom: 30px;">HADIAH</div>
                 <div class="dashboard-qr-wrapper">
-                    <img src="maybank-qr.png" alt="Maybank DuitNow QR">
+                    <img src="qrbank.png" alt="Maybank DuitNow QR">
                 </div>
                 <p style="font-size: 13px; font-weight: 500; margin-top: 15px;">Nurul Izzah Binti Muhammad Zahir</p>
                 <p style="font-size: 12px; opacity: 0.9; margin-top: 5px;">Maybank</p>
