@@ -98,17 +98,21 @@
             margin: 15px 0;
         }
 
-        /* ==========================================================================
-           1. HERO INVITATION STYLE (Rujukan: Image 2)
+       /* ==========================================================================
+           1. HERO INVITATION STYLE (Fix Jarak & Fit Sakura)
            ========================================================================== */
         .hero-section {
             padding-top: 50px;
-            padding-bottom: 50px;
+            padding-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Melekatkan elemen rapat dari atas */
         }
 
         .hero-names {
             font-family: var(--font-serif);
-            font-size: 46px;
+            font-size: 42px;
             color: var(--maroon-text);
             line-height: 1.1;
             font-weight: 400;
@@ -117,16 +121,19 @@
         .hero-ampersand {
             font-family: var(--font-serif);
             font-style: italic;
-            font-size: 36px;
+            font-size: 32px;
             color: #333333;
-            margin: 10px 0;
+            margin: 5px 0;
             display: block;
+            line-height: 1;
         }
 
+        /* Mengawal saiz bunga sakura supaya tak terlalu besar dalam telefon */
         .center-flower-illustration {
-            width: 75%;
-            max-width: 320px;
-            margin: 30px auto;
+            width: 100%;
+            max-width: 200px; /* Saiz ideal untuk ilustrasi sakura tengah */
+            height: auto;
+            margin: 15px auto; /* Mengecilkan margin atas bawah bunga */
             display: block;
         }
 
