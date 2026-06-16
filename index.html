@@ -141,18 +141,19 @@
 
         /* 2. Tambah kelas baru untuk paksa video duduk diam kat belakang masa skrol */
         .body-video-bg {
-            position: absolute; 
+            position: fixed; /* TUKAR KE FIXED: Biar dia melekat kat skrin, bukan kat wrapper skrol */
             top: 0;
-            left: 0;
+            left: 50%; /* Letak di tengah paksi X monitor/skrin */
+            transform: translateX(-50%); /* Tarikh balik center mengikut saiz wrapper 450px kau */
             width: 100%;
-            height: 100%;
+            max-width: 450px; /* Ikut saiz maksimum wrapper telefon kau biar tak terkeluar ke PC */
+            height: 100vh; /* Kunci tinggi tepat ikut 100% skrin phone tetamu */
             
-            /* DUA BARIS NI KUNCI UTAMA: Dia akan auto-scale ikut resolusi skrin tanpa herot */
-            object-fit: cover; 
+            object-fit: cover; /* Sekarang dia akan scale dengan herlok tanpa zoom hantu */
             object-position: center; 
             
             pointer-events: none; 
-            z-index: 0;
+            z-index: 0; /* Tetap duduk paling belakang sekali */
             }
 
         /* ==========================================================================
