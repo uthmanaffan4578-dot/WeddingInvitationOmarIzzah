@@ -134,14 +134,19 @@
             margin-bottom: 8px;  
         }
 
-        /* Mengawal kedudukan bunga sakura bawah Nurul Izzah */
+        /* Mengawal saiz bunga sakura merentasi skrin dari hujung ke hujung */
         .center-flower-illustration {
             width: 100%;
-            max-width: 200px;
+            max-width: 100%; /* Paksa bunga membesar penuh mengikut lebar kad (450px) */
             height: auto;
-            margin: 15px auto; /* Jarak sekata untuk bunga */
+            
+            /* Rapatkan jarak atas bawah dengan nama & tajuk walimatulurus */
+            margin: 10px 0; 
+            padding: 0 5px; /* Padding halus kiri kanan supaya kelopak tak terkeluar skrin telefon */
             display: block;
-            transform: scaleX(-1);
+            
+            /* Kekalkan fungsi flip horizontal yang kau nak tadi */
+            transform: scaleX(-1); 
         }
 
         .title-walimatulurus {
