@@ -633,16 +633,16 @@
 </head>
 <body>
 
-    <!-- ================= WELCOME COVER SCREEN: ENVELOPE + WAX SEAL ASING ================= -->
+    <!-- ================= WELCOME COVER SCREEN: AUTOMATIC VIDEO PLAY ================= -->
     <div id="welcome-cover" class="welcome-overlay">
-        <!-- Fail video latar belakang envelope sahaja (tanpa wax seal) -->
-        <video id="envelope-video" class="envelope-video-bg" muted playsinline>
+        <!-- Tambah attribute autoplay supaya masuk je terus jalan sendiri -->
+        <video id="envelope-video" class="envelope-video-bg" autoplay muted playsinline>
             <source src="envelope.mp4" type="video/mp4">
         </video>
 
         <!-- Container Konten Lutsinar -->
         <div class="welcome-content-container">
-            <!-- Butang Wax Seal Interaktif -->
+            <!-- Butang Wax Seal Interaktif (Hanya dipicu bila ditekan untuk ON muzik & buka page) -->
             <button onclick="bukaSampulSurat()" class="btn-wax-seal-trigger" aria-label="Buka Kad">
                 <img src="wax_seal.png" alt="Wax Seal Red" class="wax-seal-img">
             </button>
@@ -902,39 +902,39 @@
         }
         setInterval(runCanvaClock, 1000);
 
-        // 4. LOGIK ENGING UTAMA: PLAY ENVELOPE VIDEO (1 SAAT) & START AUTOPLAY AUDIO
+        // 4. LOGIK ENGING UTAMA: AUTO-PLAY & FREEZE VIDEO (1 SAAT) + MANUAL MUSIC ON WAX SEAL
         const musicTrack = document.getElementById("canva-bg-music");
         const musicControllerButton = document.getElementById("music-floating-toggle");
         const envelopeVid = document.getElementById("envelope-video");
         let trackPlayingStatus = false;
 
-        // Memastikan video di-pause siap-siap pada frame pertama masa website baru load
+        // AUTOMATIC TIMING LOGIC: Sebaik sahaja website load, tunggu 1 saat tepat untuk freeze video
         if (envelopeVid) {
-            envelopeVid.currentTime = 0;
-            envelopeVid.pause();
+            // Memastikan video bermula dari awal kalau ter-cache
+            envelopeVid.currentTime = 0; 
+            
+            // Set masa 1000 milisaat (1 saat) untuk bekukan pergerakan video envelope
+            setTimeout(() => {
+                envelopeVid.pause(); 
+                console.log("Video successfully frozen after 1 second.");
+            }, 1000); 
         }
 
+        // FUNGSI PICUAN: Bila tetamu picit butang Wax Seal Merah
         function bukaSampulSurat() {
-            if (!envelopeVid) return;
-
-            // 1. Jalankan rakaman video sampul surat terbukak
-            envelopeVid.play();
-
-            // 2. Serentak dengan itu, paksa autoplay lagu MP3 berjalan (Bypass sekatan browser)
+            // 1. Paksa pasang musik lagu Arvian Dwi (Bypass sekatan browser sebab ada sentuhan user)
             if (musicTrack) {
                 musicTrack.play().then(() => {
                     trackPlayingStatus = true;
                     if (musicControllerButton) musicControllerButton.innerText = "🎵";
-                }).catch(err => console.log("Audio play blocked: ", err));
+                }).catch(err => console.log("Audio play blocked by browser: ", err));
             }
 
-            // 3. SET MASA TIMING: Tunggu tepat 1000 milisaat (1 Saat), kemudian freeze video & angkat cover
-            setTimeout(() => {
-                envelopeVid.pause(); // Freeze video tepat selepas 1 saat!
-                
-                // Tolak welcome cover naik ke atas langit untuk dedahkan isi kad utama
-                document.getElementById("welcome-cover").classList.add("fade-out-page");
-            }, 1000); // 1000ms bersamaan 1 saat tepat
+            // 2. Tolak skrin welcome cover slaid naik ke atas dengan lancar
+            const welcomeOverlay = document.getElementById("welcome-cover");
+            if (welcomeOverlay) {
+                welcomeOverlay.classList.add("fade-out-page");
+            }
         }
 
         // Fungsi Butang Floating Toggle Musik Bawah Kanan (On/Off Manual)
