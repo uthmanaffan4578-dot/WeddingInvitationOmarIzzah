@@ -148,39 +148,42 @@
         }
 
         /* ==========================================================================
-           SISTEM FRAME BAHARU (MENGGUNAKAN GAMBAR PNG SEBAGAI LATAR BELAKANG)
+           SISTEM FRAME (DENGAN EFEK DROP-SHADOW UNTUK ELEMEN DEPTH 3D)
            ========================================================================== */
         .section-frame {
             margin: 25px auto;
-            padding: 50px 30px; /* Lebihkan padding sikit supaya teks tak terkeluar dari sempadan imej PNG */
+            padding: 50px 30px;
             text-align: center;
             position: relative;
             
-            /* GANTIKAN WARNA KEPADA GAMBAR FAIL PNG KAU */
             background-image: url('Background.png');
-            background-color: transparent; /* Matikan warna solid asal */
+            background-color: transparent;
             background-repeat: no-repeat;
             background-position: center;
-            background-size: 100% 100%; /* Paksa gambar PNG meregang mengikut tinggi & lebar section */
+            background-size: 100% 100%;
+            border: none;
             
-            border: none; /* Padam border solid lama sebab kita dah pakai border dari imej PNG */
+            border-radius: 20px;
+            overflow: hidden;
             
-            /* Default keadaan asal: Semua frame dikecutkan sikit dan pudar */
+            /* KEADAAN ASAL (SEBELUM FOKUS): Shadow halus gila untuk 'ambient occlusion' tipis */
             transform: scale(0.93);
             opacity: 0.55;
+            filter: drop-shadow(0 4px 8px rgba(128, 51, 60, 0.08));
             z-index: 1;
             
-            /* Transisi smooth semasa skrol */
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.2), 
                         filter 0.5s ease,
                         opacity 0.5s ease;
         }
 
-        /* LOGIK ACTIVE: Bila frame sampai tengah skrin phone, dia membesar & menyala terang */
+        /* KEADAAN AKTIF (BILA USER SKROL KAT TENGAH): Shadow membesar & pekat untuk impak depth tinggi */
         .section-frame.active {
-            transform: scale(1.04); /* Efek bubble pop up */
-            opacity: 1; /* Terang penuh */
-            filter: drop-shadow(0 10px 20px rgba(128, 51, 60, 0.15)); /* Guna drop-shadow untuk imej PNG biar shadow ikut bentuk border imej */
+            transform: scale(1.04);
+            opacity: 1;
+            
+            /* FILTER DROP-SHADOW: Bayang lembut bertema maroon ikut bentuk lekuk imej PNG */
+            filter: drop-shadow(0 15px 25px rgba(128, 51, 60, 0.22));
             z-index: 5;
         }
 
