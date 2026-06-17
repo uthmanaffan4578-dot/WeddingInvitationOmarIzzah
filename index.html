@@ -399,26 +399,42 @@
             text-align: right;
         }
 
+        /* ==========================================================================
+           BINGKAI GAMBAR PENGANTIN (NGAM UNTUK ASSET IMAGE_A4524B.PNG)
+           ========================================================================== */
         .profile-wooden-frame {
-            width: 140px;
-            height: 140px;
-            background: white;
-            padding: 6px;
-            /* Ditambah border border tebal berwarna maroon sebagai bingkai premium */
-            border: 3px solid var(--maroon-text); 
-            border-radius: 20px; /* Buat bucu bingkai gambar melengkung modern */
-            box-shadow: 0 8px 20px rgba(128, 51, 60, 0.15); /* Bayang depth lembut */
+            width: 155px;  /* Saiz kotak dinaikkan sikit biar nampak jelas kat phone */
+            height: 155px;
+            padding: 14px; /* Padding ni magik dia: Paksa gambar masuk ngam-ngam kat dalam garisan petak hitam */
+            background-color: transparent;
+            
+            /* Panggil fail imej baru kau */
+            background-image: url('frame.png'); 
+            background-size: 100% 100%; /* Paksa frame bunga penuh satu kotak tanpa terpotong */
+            background-repeat: no-repeat;
+            background-position: center;
+            
             flex-shrink: 0;
-            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
             transition: transform 0.3s ease;
         }
 
+        .profile-wooden-frame:hover {
+            transform: scale(1.05);
+        }
+
+        /* Setting khas gambar profil pengantin di dalam frame */
         .profile-wooden-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            /* Potong bucu gambar jadi petak lembut (radius 4px) supaya fit cun di dalam garisan hitam frame */
+            border-radius: 4px; 
+            z-index: 1;
         }
-
         .couple-text-details {
             padding: 0 15px;
             font-size: 13px;
