@@ -247,7 +247,7 @@
         .section-frame::before {
             content: '';
             position: absolute;
-            top: -10px;   /* Tolak keluar sikit dari border supaya nampak efek membalut bucu */
+            top: -12px;   /* Tolak keluar sikit dari border supaya nampak efek membalut bucu */
             left: -13px;  /* Tolak keluar sikit */
             width: 150px;  
             height: 150px;
@@ -263,7 +263,7 @@
         .section-frame::after {
             content: '';
             position: absolute;
-            bottom: -10px; /* Tolak keluar sikit */
+            bottom: -12px; /* Tolak keluar sikit */
             right: -13px;  /* Tolak keluar sikit */
             width: 150px;
             height: 150px;
@@ -1022,9 +1022,28 @@
             });
         }
 
+        // ==========================================================================
+        // LOGIK KAWALAN AUTO-SCROLL TANPA HENTI & PENGESAN SENTUHAN JARI
+        // ==========================================================================
+        let infiniteScrollInterval = null; // Pembolehubah global untuk pegang enjin skrol
+
+        // Fungsi khas untuk matikan auto-skrol sebaik sahaja user usik skrin
+        function stopAutoScroll() {
+            if (infiniteScrollInterval) {
+                clearInterval(infiniteScrollInterval);
+                infiniteScrollInterval = null;
+                console.log("Auto-scroll deactivated: User took over control.");
+                
+                // Buang listener lepas dah trigger sekali supaya jimat memori phone
+                window.removeEventListener('touchstart', stopAutoScroll);
+                window.removeEventListener('mousedown', stopAutoScroll);
+                window.removeEventListener('wheel', stopAutoScroll);
+            }
+        }
+
         // FUNGSI PICUAN: Bila tetamu picit butang Wax Seal Merah
         function bukaSampulSurat() {
-            // 1. Pasang musik lagu Arvian Dwi secara automatik (Bypass sekatan browser)
+            // 1. Pasang musik lagu Arvian Dwi secara automatik
             if (musicTrack) {
                 musicTrack.play().then(() => {
                     trackPlayingStatus = true;
@@ -1038,25 +1057,23 @@
                 welcomeOverlay.classList.add("fade-out-page");
             }
 
-            // ==========================================================================
-            // KOD BARU: AUTO-SCROLL HINT (SKROL AUTOMATIK PERLAHAN LEPAS BUKA KAD)
-            // ==========================================================================
-            // Kita tunggu 1.5 saat bagi slaid envelope naik sikit, baru mulakan auto-skrol
+            // 3. KOD BARU: AUTO-SCROLL SAMPAI KIAMAT (Tunggu slaid naik sikit baru jalan)
             setTimeout(() => {
-                let scrollCount = 0;
-                // Tetapkan sasaran sejauh mana web nak skrol down (contoh: 350px ke bawah)
-                const targetScrollDistance = 350; 
-                
-                const autoScrollInterval = setInterval(() => {
-                    if (scrollCount < targetScrollDistance) {
-                        window.scrollBy(0, 2); // Nilai 2 ni kelajuan dia. Kecil maksudnya slow gila dan smooth
-                        scrollCount += 2;
+                // Pasang event listeners sedia ada untuk kesan bila jari tetamu mula usik skrin
+                window.addEventListener('touchstart', stopAutoScroll, { passive: true }); // Untuk touch phone
+                window.addEventListener('mousedown', stopAutoScroll, { passive: true });  // Untuk klik mouse PC
+                window.addEventListener('wheel', stopAutoScroll, { passive: true });      // Untuk scroll wheel PC
+
+                // Jalankan skrol automatik perlahan tanpa had
+                infiniteScrollInterval = setInterval(() => {
+                    // Semak kalau skrol dah mencecah siling paling bawah website, auto-clear
+                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                        clearInterval(infiniteScrollInterval);
                     } else {
-                        clearInterval(autoScrollInterval); // Dah sampai jarak sasaran, berhenti skrol!
+                        window.scrollBy(0, 1); // Nilai 1 ni maksudnya skrol gila babat slow dan smooth gila bapak. 
                     }
-                }, 10); // Dijalankan setiap 10 milisaat untuk kelancaran animasi frame rate
-            }, 1500); 
-            // ==========================================================================
+                }, 15); // Bergerak setiap 15 milisaat untuk kekalkan frame rate multimedia yang lancar
+            }, 2000); // Mula bergerak tepat selepas 2 saat (sebaik sahaja welcome cover selesai slaid naik)
         }
 
         // Fungsi Butang Floating Toggle Musik Manual
