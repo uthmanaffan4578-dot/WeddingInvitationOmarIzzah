@@ -1024,6 +1024,7 @@
 
         // FUNGSI PICUAN: Bila tetamu picit butang Wax Seal Merah
         function bukaSampulSurat() {
+            // 1. Pasang musik lagu Arvian Dwi secara automatik (Bypass sekatan browser)
             if (musicTrack) {
                 musicTrack.play().then(() => {
                     trackPlayingStatus = true;
@@ -1031,11 +1032,31 @@
                 }).catch(err => console.log("Audio play blocked by browser: ", err));
             }
 
-
+            // 2. Tolak skrin welcome cover slaid naik ke atas dengan lancar & slow (2 saat)
             const welcomeOverlay = document.getElementById("welcome-cover");
             if (welcomeOverlay) {
                 welcomeOverlay.classList.add("fade-out-page");
             }
+
+            // ==========================================================================
+            // KOD BARU: AUTO-SCROLL HINT (SKROL AUTOMATIK PERLAHAN LEPAS BUKA KAD)
+            // ==========================================================================
+            // Kita tunggu 1.5 saat bagi slaid envelope naik sikit, baru mulakan auto-skrol
+            setTimeout(() => {
+                let scrollCount = 0;
+                // Tetapkan sasaran sejauh mana web nak skrol down (contoh: 350px ke bawah)
+                const targetScrollDistance = 350; 
+                
+                const autoScrollInterval = setInterval(() => {
+                    if (scrollCount < targetScrollDistance) {
+                        window.scrollBy(0, 2); // Nilai 2 ni kelajuan dia. Kecil maksudnya slow gila dan smooth
+                        scrollCount += 2;
+                    } else {
+                        clearInterval(autoScrollInterval); // Dah sampai jarak sasaran, berhenti skrol!
+                    }
+                }, 10); // Dijalankan setiap 10 milisaat untuk kelancaran animasi frame rate
+            }, 1500); 
+            // ==========================================================================
         }
 
         // Fungsi Butang Floating Toggle Musik Manual
