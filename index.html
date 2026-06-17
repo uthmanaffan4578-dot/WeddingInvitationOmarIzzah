@@ -967,10 +967,6 @@
                 }).catch(err => console.log("Audio play blocked by browser: ", err));
             }
 
-            if (envelopeVid) {
-                envelopeVid.loop = true;
-                envelopeVid.play();
-            }
 
             const welcomeOverlay = document.getElementById("welcome-cover");
             if (welcomeOverlay) {
